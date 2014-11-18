@@ -5,10 +5,8 @@
 #include "FastLED.h"
 #include <string.h> /* memset */
 #include "config.h"
-#include "mesmer.h"
-#include "bounce.h"
-#include "sparkspattern.h"
 #include <util/delay.h>
+#include "FlickerPattern.h"
 
 struct CRGB frameBuffer[NUM_LEDS];
 
@@ -16,15 +14,15 @@ int main()
 {
 	memset(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
 	FastLED.addLeds<NEOPIXEL, 10>(frameBuffer, NUM_LEDS);
-	CHSV hsv(0, 0, MAX_BRIGHTNESS);
-	CRGB rgb;
+
+	FlickerPattern flicker(200, MAX_BRIGHTNESS,
+						   100, FLICKER_BRIGHTNESS,
+						   50, 5);
 
     while(1) {
+    	flicker.Logic(10);
+    	flicker.Render(frameBuffer, NUM_LEDS);
 
-    	hsv.val = (rand() % 2 == 0) ? MAX_BRIGHTNESS : FLICKER_BRIGHTNESS;
-
-    	hsv2rgb_rainbow(hsv, rgb);
-    	fill_solid(frameBuffer, NUM_LEDS, rgb);
     	FastLED.show();
         _delay_ms(200);
 

@@ -3,18 +3,14 @@
 
 #include "pixeltypes.h"
 
-#define NUM_LEDS 10
+#define NUM_LEDS 100
 
-#define MAX_BRIGHTNESS 32
-#define FLICKER_BRIGHTNESS 24
+#define MAX_BRIGHTNESS 255
+#define FLICKER_BRIGHTNESS 220
 
 inline void assignGreater(unsigned char *storage, unsigned char comparison)
 {
 	if (comparison > *storage) *storage = comparison;
 }
-
-// Shouldn't modify below this line
-
-extern struct CRGB frameBuffer[NUM_LEDS];
 
 #endif
