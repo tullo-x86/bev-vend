@@ -3,11 +3,10 @@
 
 #include "pixeltypes.h"
 
-#define NUM_STRIPS 5
-#define LEDS_PER_STRIP 16
-#define NUM_LEDS (NUM_STRIPS * LEDS_PER_STRIP)
+#define NUM_LEDS 10
 
-#define MAX_BRIGHTNESS 64
+#define MAX_BRIGHTNESS 32
+#define FLICKER_BRIGHTNESS 24
 
 inline void assignGreater(unsigned char *storage, unsigned char comparison)
 {
