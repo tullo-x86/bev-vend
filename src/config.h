@@ -5,9 +5,6 @@
 
 #define NUM_LEDS 100
 
-#define MAX_BRIGHTNESS 255
-#define FLICKER_BRIGHTNESS 220
-
 inline void assignGreater(unsigned char *storage, unsigned char comparison)
 {
 	if (comparison > *storage) *storage = comparison;

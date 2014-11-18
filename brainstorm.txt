@@ -1,15 +1,33 @@
-1	
-2	
-3	
-4	
-5	
-6	
-7	
-8	
-9	
-10	
-11	
-12	
+Patchy. Some LEDs are lit while others are unlit.
+Less patchy. Some LEDs are medium brightness, others are dim and flicker on/off at a slow rate.
+Even lighting. All LEDs are lit constantly but not at full brightness
+Even lighting with colour hue changes
+Pulsing off > dim > off (with flicker to medium bright)
+Pulsing dim > bright > dim
+Pulsing in random locations
+Transitioning pulses in random locations (coloured)
+Animated fade, top to bottom
+Animated fade, rotating 2 point
+Animated fade, rotating 3 point
+Animated fade, rotating 4 point
+Animated fade, rotating 4 point 1 colour (rainbow per 5min)
+Animated fade, rotating 4 point 2 colours
+Animated fade, rotating 4 point 3 colours
+Animated fade, rotating 4 point 4 colours
+Vend animation from top to bottom
+Vend animation becomes selection-dependent
+Coin insert animation from top corner to button side
+Selection animation scrolls back to top and then shows vend animation
 
-"Money sufficient" signal stays on until vend finishes
-"selected item" signal also stays on until vend finishes
+FINALE:
+Pattern changes every time someone buys a drink (weighted toward prettier ones)
+
+------------------------
+
+Total cost $70ea ($140 across both machines)
+$140 / 20 steps == $7.00 between level-ups
+
+"Money Sufficient" signal stays on until vend finishes
+"Selected IItem" signal also stays on until vend finishes
+
+Bank further donations to pay for Slurmification and/or Nuka-Cola machine.

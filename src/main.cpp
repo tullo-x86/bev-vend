@@ -15,8 +15,8 @@ int main()
 	memset(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
 	FastLED.addLeds<NEOPIXEL, 10>(frameBuffer, NUM_LEDS);
 
-	FlickerPattern flicker(200, MAX_BRIGHTNESS,
-						   100, FLICKER_BRIGHTNESS,
+	FlickerPattern flicker(200, 175,
+						   100, 175,
 						   50, 5);
 
     while(1) {
