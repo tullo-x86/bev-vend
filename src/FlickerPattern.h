@@ -20,8 +20,9 @@ namespace FlickerState {
 class FlickerPattern {
 public:
 	FlickerPattern(int recoveryTime, char fullBrightness,
-				   int dimTime,      char dimBrightness,
-				   int darkTime,     char darkBrightness);
+				   int dimTime,      char dimBrightness,  char dimChance,
+				   int darkTime,     char darkBrightness, char darkChance,
+				   char patchiness);
 	virtual ~FlickerPattern();
 
 	void Logic(int ms);
@@ -41,6 +42,11 @@ private:
 	const char _fullBrightness;
     const char _dimBrightness;
     const char _darkBrightness;
+
+    const char _dimChance;
+    const char _darkChance;
+
+    const char _patchiness;
 };
 
 #endif /* FLICKERPATTERN_H_ */
