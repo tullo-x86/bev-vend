@@ -27,22 +27,52 @@ void crash() {
         ; // Busy-wait forever!
 }
 
-int main() {
-    memset8(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
-    FastLED.addLeds<NEOPIXEL, 10>(frameBuffer, NUM_LEDS);
+FlickerPattern flicker1(200, 32,
+               600, 16, 64,
+               100, 6,  32,
+               128);
 
-    FlickerPattern flicker(200, 32,
-                           600, 16, 64,
-                           100, 6, 32,
-                           64);
+FlickerPattern flicker2(3000, 32,
+               100 , 16, 64,
+               30  ,  6, 32,
+               64);
+
+#define NUM_PATTERNS 2
+Pattern *patterns[NUM_PATTERNS] = {
+        &flicker1,
+        &flicker2
+};
+
+#define FPS 30
+#define FRAME_MS (1000 / FPS)
+int currentPattern = 0;
+#define SECONDS_BETWEEN_PATTERNS 5
+#define FRAMES_BETWEEN_PATTERNS (FPS * SECONDS_BETWEEN_PATTERNS)
+int framesUntilNextPattern = FRAMES_BETWEEN_PATTERNS;
+
+// This is to ensure the .data section size includes the amount of memory
+// used by the whole framebuffer when addressing a whole 100LED strip.
+CRGB buffer_padding_delete_me[100 - NUM_LEDS];
+
+int main() {
+    DDRB |= 0x02;
+    PORTB |= 0x02;
+    memset8(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
+    memset8(buffer_padding_delete_me, 0, sizeof(struct CRGB) * (100 - NUM_LEDS));
+    FastLED.addLeds<NEOPIXEL, 10>(frameBuffer, NUM_LEDS);
 
     while (1)
     {
-        flicker.Logic(100);
-        flicker.Render(frameBuffer, NUM_LEDS);
+        if (--framesUntilNextPattern == 0) {
+            PORTB ^= 0x02;
+            framesUntilNextPattern = FRAMES_BETWEEN_PATTERNS;
+            if (++currentPattern == NUM_PATTERNS) currentPattern = 0;
+        }
+
+        patterns[currentPattern]->Logic(FRAME_MS);
+        patterns[currentPattern]->Render(frameBuffer, NUM_LEDS);
 
         FastLED.show();
-        _delay_ms(100);
-
+        _delay_ms(FRAME_MS);
     }
 }

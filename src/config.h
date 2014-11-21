@@ -6,6 +6,9 @@
 #define WIDTH_PX 3
 #define HEIGHT_PX 5
 
+// NB: Total of actual vending machine LED strip will be 100.
+// This is corrected for in main.cpp, and its padding will need
+// to be removed when these dimensions add up to 100.
 #define NUM_LEDS (WIDTH_PX + WIDTH_PX + HEIGHT_PX + HEIGHT_PX)
 
 #define TOP_X(n) (n)

@@ -8,6 +8,8 @@
 #ifndef FLICKERPATTERN_H_
 #define FLICKERPATTERN_H_
 
+#include "Pattern.h"
+
 namespace FlickerState {
 	enum Enum {
 		Ready,
@@ -17,7 +19,7 @@ namespace FlickerState {
 	};
 }
 
-class FlickerPattern {
+class FlickerPattern : public Pattern {
 public:
 	FlickerPattern(int recoveryTime, char fullBrightness,
 				   int dimTime,      char dimBrightness,  char dimChance,
