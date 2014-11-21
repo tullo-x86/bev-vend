@@ -28,17 +28,17 @@ int main()
 	memset8(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
 	FastLED.addLeds<NEOPIXEL, 10>(frameBuffer, NUM_LEDS);
 
-	FlickerPattern flicker(200, 120,
-						   100, 120, 64,
-						   50,    5, 32,
+	FlickerPattern flicker(200, 32,
+						   600, 16, 64,
+						   100,  6, 32,
 						   0);
 
     while(1) {
-    	flicker.Logic(1000);
+    	flicker.Logic(100);
     	flicker.Render(frameBuffer, NUM_LEDS);
 
     	FastLED.show();
-        _delay_ms(1000);
+        _delay_ms(100);
 
     }
 }

@@ -37,8 +37,6 @@ private:
     const int _dimTime;
     const int _darkTime;
 
-	char _brightness;
-
 	const char _fullBrightness;
     const char _dimBrightness;
     const char _darkBrightness;

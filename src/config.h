@@ -3,8 +3,8 @@
 
 #include "pixeltypes.h"
 
-#define WIDTH_PX 5
-#define HEIGHT_PX 11
+#define WIDTH_PX 3
+#define HEIGHT_PX 5
 
 #define NUM_LEDS (WIDTH_PX + WIDTH_PX + HEIGHT_PX + HEIGHT_PX)
 

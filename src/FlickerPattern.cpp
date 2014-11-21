@@ -23,9 +23,8 @@ _dimChance(dimChance),
 _darkChance(darkChance),
 _patchiness(patchiness),
 
-_brightness(fullBrightness),
-_state(FlickerState::Ready),
-_timeToTransition(0)
+_timeToTransition(0),
+_state(FlickerState::Ready)
 {
 	// Initialise all the things!
 }
@@ -38,18 +37,16 @@ void FlickerPattern::Logic(int ms)
 	switch(_state) {
 		case FlickerState::Ready:
 		{
-			// Has a chance to go dim or dark
-
-			// Roll the dice
+			// Yes, I know this code not correctly model probability, but it is good enough for an effect.
 			char roll = random8();
-			// Assuming there is one update per second (ms == 1000) then we can naively compare against chance values
-			if (roll < _darkChance)
+
+			if (roll < (int)_darkChance * ms / 1000)
 			{
 				// Transition to dark
 				_state = FlickerState::Dark;
 				_timeToTransition = _darkTime;
 			}
-			else if (roll < _darkChance + _dimChance)
+			else if (roll < ((int)(_darkChance + _dimChance)) * ms / 1000)
 			{
 				// Transition to dim
 				_state = FlickerState::Dim;
@@ -59,40 +56,43 @@ void FlickerPattern::Logic(int ms)
 		break;
 
 		case FlickerState::Recovering:
+		{
 			// Cannot go dim or dark, but go ready when timer hits zero
 			if (_timeToTransition < 0)
 			{
 				_state = FlickerState::Ready;
 			}
-
-			break;
+		}
+		break;
 
 		case FlickerState::Dim:
 		case FlickerState::Dark:
+		{
 			// Timer should count to zero then go recovering
 			if (_timeToTransition < 0)
 			{
 				_state = FlickerState::Recovering;
+				_timeToTransition = _recoveryTime;
 			}
+		}
+		break;
 
-			break;
-		// This shouldn't be possible
 		default:
+			// This shouldn't be possible
 			crash();
-			break;
+		break;
 	}
 }
 
 void FlickerPattern::Render(CRGB *frameBuffer, int length)
 {
-	//CHSV hsv(0, 0, _brightness);
-	CRGB rgb(_brightness, _brightness, _brightness);
-	//hsv2rgb_rainbow(hsv, rgb);
-	fill_solid(frameBuffer, length, rgb);
+	const char b = _state == FlickerState::Dark ? _darkBrightness :
+				   _state == FlickerState::Dim  ? _dimBrightness  :
+                                                  _fullBrightness;
+
+	fill_solid(frameBuffer, length, CRGB(b, b, b));
 }
 
 FlickerPattern::~FlickerPattern()
-{
-	// TODO Auto-generated destructor stub
-}
+{ }
 
