@@ -45,6 +45,7 @@ private:
     const char _darkChance;
 
     const char _patchiness;
+    char _patchSeed;
 };
 
 #endif /* FLICKERPATTERN_H_ */

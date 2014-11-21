@@ -22,6 +22,7 @@ _darkBrightness(darkBrightness),
 _dimChance(dimChance),
 _darkChance(darkChance),
 _patchiness(patchiness),
+_patchSeed(0),
 
 _timeToTransition(0),
 _state(FlickerState::Ready)
@@ -73,6 +74,7 @@ void FlickerPattern::Logic(int ms)
 			{
 				_state = FlickerState::Recovering;
 				_timeToTransition = _recoveryTime;
+				_patchSeed++;
 			}
 		}
 		break;
@@ -89,8 +91,24 @@ void FlickerPattern::Render(CRGB *frameBuffer, int length)
 	const char b = _state == FlickerState::Dark ? _darkBrightness :
 				   _state == FlickerState::Dim  ? _dimBrightness  :
                                                   _fullBrightness;
+	CRGB rgb(b, b, b);
+	fill_solid(frameBuffer, length, rgb);
 
-	fill_solid(frameBuffer, length, CRGB(b, b, b));
+	if (_patchiness != 0) {
+		const char b2 = _state == FlickerState::Dark ? 0 :
+					    _state == FlickerState::Dim  ? 0 :
+					    		                       _darkBrightness;
+
+		// We're using this seed to determine whether we transition, so store it for later
+		unsigned int seed = random16_get_seed();
+		random16_set_seed((int)_patchiness * b + _patchSeed);
+
+		for(int i = 0; i < length; i++)
+		{
+			if (random8() < _patchiness) frameBuffer[i] = CRGB(b2, b2, b2);
+		}
+		random16_set_seed(seed);
+	}
 }
 
 FlickerPattern::~FlickerPattern()
