@@ -6,6 +6,7 @@
 #include "config.h"
 #include <util/delay.h>
 #include "FlickerPattern.h"
+#include "GlobalHueFadePattern.h"
 
 CRGB frameBuffer[NUM_LEDS];
 
@@ -37,10 +38,13 @@ FlickerPattern flicker2(3000, 32,
                30  ,  6, 32,
                64);
 
-#define NUM_PATTERNS 2
+GlobalHueFadePattern solidHue1(255, 128);
+
+#define NUM_PATTERNS 3
 Pattern *patterns[NUM_PATTERNS] = {
         &flicker1,
-        &flicker2
+        &flicker2,
+        &solidHue1
 };
 
 #define FPS 30
