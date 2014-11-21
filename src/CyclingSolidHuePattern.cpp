@@ -5,22 +5,22 @@
  *      Author: tully
  */
 
-#include "GlobalHueFadePattern.h"
+#include "CyclingSolidHuePattern.h"
 #include "hsv2rgb.h"
 
-GlobalHueFadePattern::GlobalHueFadePattern(char maxSaturation, char brightness)
+CyclingSolidHuePattern::CyclingSolidHuePattern(char maxSaturation, char brightness)
 : _maxSaturation(maxSaturation),
   _brightness(brightness),
   _phase(0)
 { }
 
-void GlobalHueFadePattern::Logic(int ms)
+void CyclingSolidHuePattern::Logic(int ms)
 {
     _phase += ms;
 }
 
 
-void GlobalHueFadePattern::Render(CRGB *frameBuffer, int length)
+void CyclingSolidHuePattern::Render(CRGB *frameBuffer, int length)
 {
     int wave = sin16(_phase & 0xffff);
     if (wave == -32768) wave = 32767;
@@ -34,6 +34,6 @@ void GlobalHueFadePattern::Render(CRGB *frameBuffer, int length)
     fill_solid(frameBuffer, length, rgb);
 }
 
-GlobalHueFadePattern::~GlobalHueFadePattern()
+CyclingSolidHuePattern::~CyclingSolidHuePattern()
 { }
 

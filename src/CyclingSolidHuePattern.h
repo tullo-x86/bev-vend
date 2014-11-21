@@ -5,15 +5,15 @@
  *      Author: tully
  */
 
-#ifndef GLOBALHUEFADEPATTERN_H_
-#define GLOBALHUEFADEPATTERN_H_
+#ifndef CYCLINGSOLIDHUEPATTERN_H_
+#define CYCLINGSOLIDHUEPATTERN_H_
 
 #include "Pattern.h"
 
-class GlobalHueFadePattern: public Pattern {
+class CyclingSolidHuePattern: public Pattern {
 public:
-    virtual ~GlobalHueFadePattern();
-    GlobalHueFadePattern(char maxSaturation, char brightness);
+    virtual ~CyclingSolidHuePattern();
+    CyclingSolidHuePattern(char maxSaturation, char brightness);
 
     void Logic(int ms);
     void Render(CRGB *frameBuffer, int length);
@@ -24,4 +24,4 @@ private:
     unsigned long _phase;
 };
 
-#endif /* GLOBALHUEFADEPATTERN_H_ */
+#endif /* CYCLINGSOLIDHUEPATTERN_H_ */
