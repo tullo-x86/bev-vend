@@ -3,8 +3,15 @@
 
 #include "pixeltypes.h"
 
+#define TESTING_STRIP 0
+
+#if TESTING_STRIP
 #define WIDTH_PX 3
 #define HEIGHT_PX 5
+#else
+#define WIDTH_PX 10
+#define HEIGHT_PX 40
+#endif
 
 // NB: Total of actual vending machine LED strip will be 100.
 // This is corrected for in main.cpp, and its padding will need

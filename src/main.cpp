@@ -10,6 +10,12 @@
 
 CRGB frameBuffer[NUM_LEDS];
 
+#if TESTING_STRIP
+// This is to ensure the .data section size includes the amount of memory
+// used by the whole framebuffer when addressing a whole 100LED strip.
+CRGB buffer_padding_delete_me[100 - NUM_LEDS];
+#endif
+
 void crash() {
     memset8(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
 
@@ -52,19 +58,19 @@ Pattern *patterns[NUM_PATTERNS] = {
 #define FPS 30
 #define FRAME_MS (1000 / FPS)
 int currentPattern = 0;
-#define SECONDS_BETWEEN_PATTERNS 5
+#define SECONDS_BETWEEN_PATTERNS 20
 #define FRAMES_BETWEEN_PATTERNS (FPS * SECONDS_BETWEEN_PATTERNS)
 int framesUntilNextPattern = FRAMES_BETWEEN_PATTERNS;
-
-// This is to ensure the .data section size includes the amount of memory
-// used by the whole framebuffer when addressing a whole 100LED strip.
-CRGB buffer_padding_delete_me[100 - NUM_LEDS];
 
 int main() {
     DDRB |= 0x02;
     PORTB |= 0x02;
     memset8(frameBuffer, 0, sizeof(struct CRGB) * NUM_LEDS);
+
+#if TESTING_STRIP
     memset8(buffer_padding_delete_me, 0, sizeof(struct CRGB) * (100 - NUM_LEDS));
+#endif
+
     FastLED.addLeds<NEOPIXEL, 10>(frameBuffer, NUM_LEDS);
 
     while (1)
