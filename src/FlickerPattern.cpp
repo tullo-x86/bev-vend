@@ -13,19 +13,22 @@ FlickerPattern::FlickerPattern(int recoveryTime, char fullBrightness,
 		                       int dimTime,      char dimBrightness,  char dimChance,
 		                       int darkTime,     char darkBrightness, char darkChance,
 		                       char patchiness) :
+_state(FlickerState::Ready),
+_timeToTransition(0),
+
 _recoveryTime(recoveryTime),
 _dimTime(dimTime),
 _darkTime(darkTime),
+
 _fullBrightness(fullBrightness),
 _dimBrightness(dimBrightness),
 _darkBrightness(darkBrightness),
+
 _dimChance(dimChance),
 _darkChance(darkChance),
-_patchiness(patchiness),
-_patchSeed(0),
 
-_timeToTransition(0),
-_state(FlickerState::Ready)
+_patchiness(patchiness),
+_patchSeed(0)
 {
 	// Initialise all the things!
 }
