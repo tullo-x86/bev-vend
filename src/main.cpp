@@ -7,6 +7,7 @@
 #include <util/delay.h>
 #include "FlickerPattern.h"
 #include "CyclingSolidHuePattern.h"
+#include "LocalisedPulsePattern.h"
 
 CRGB frameBuffer[NUM_LEDS];
 
@@ -47,12 +48,17 @@ FlickerPattern flicker2(3000, 32,
 CyclingSolidHuePattern solidHue1(0, 96);
 CyclingSolidHuePattern solidHue2(255, 128);
 
-#define NUM_PATTERNS 4
+LocalisedPulsePattern localisedPulse1(NUM_LEDS, 4096, 0, 32);
+LocalisedPulsePattern localisedPulse2(8, 4096, 32, 255);
+
+#define NUM_PATTERNS 6
 Pattern *patterns[NUM_PATTERNS] = {
         &flicker1,
         &flicker2,
         &solidHue1,
-        &solidHue2
+        &solidHue2,
+        &localisedPulse1,
+        &localisedPulse2
 };
 
 #define FPS 30
