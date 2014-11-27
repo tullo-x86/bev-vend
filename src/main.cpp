@@ -48,22 +48,26 @@ FlickerPattern flicker2(3000, 32,
 CyclingSolidHuePattern solidHue1(0, 96);
 CyclingSolidHuePattern solidHue2(255, 128);
 
-LocalisedPulsePattern localisedPulse1(NUM_LEDS, 4096, 0, 32);
-LocalisedPulsePattern localisedPulse2(8, 4096, 32, 255);
+LocalisedPulsePattern globalPulse1(NUM_LEDS, 4096, 32, 96, false);
+LocalisedPulsePattern globalPulse2(NUM_LEDS, 4096, 32, 255, false);
+LocalisedPulsePattern localisedPulse1(8, 4096, 50, 255, false);
+LocalisedPulsePattern localisedPulse2(8, 4096, 50, 255, true);
 
-#define NUM_PATTERNS 6
+#define NUM_PATTERNS 8
 Pattern *patterns[NUM_PATTERNS] = {
         &flicker1,
         &flicker2,
         &solidHue1,
         &solidHue2,
+        &globalPulse1,
+        &globalPulse2,
         &localisedPulse1,
         &localisedPulse2
 };
 
 #define FPS 30
 #define FRAME_MS (1000 / FPS)
-int currentPattern = 0;
+unsigned char currentPattern = 0;
 #define SECONDS_BETWEEN_PATTERNS 20
 #define FRAMES_BETWEEN_PATTERNS (FPS * SECONDS_BETWEEN_PATTERNS)
 int framesUntilNextPattern = FRAMES_BETWEEN_PATTERNS;

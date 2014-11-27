@@ -12,7 +12,7 @@
 
 class LocalisedPulsePattern: public Pattern {
 public:
-    LocalisedPulsePattern(char pulseWidth, int periodMs, char minBrightness, char maxBrightness);
+    LocalisedPulsePattern(char pulseWidth, int periodMs, char minBrightness, char maxBrightness, bool useColouredPulses);
     virtual ~LocalisedPulsePattern();
 
     void Logic(int ms);
@@ -23,12 +23,14 @@ private:
     int InterpolatedBrightness();
 
     const char _pulseWidth;
-    const int _periodMs;
+    const unsigned _periodMs;
     const char _minBrightness;
     const char _maxBrightness;
+    const bool _useColouredPulses;
 
     unsigned _phase;
     char _pulseLocation;
+    char _pulseHue;
 };
 
 #endif /* LOCALISEDPULSEPATTERN_H_ */

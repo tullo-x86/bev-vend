@@ -7,14 +7,17 @@
 
 #include "LocalisedPulsePattern.h"
 #include "config.h"
+#include "hsv2rgb.h"
 
-LocalisedPulsePattern::LocalisedPulsePattern(char pulseWidth, int periodMs, char minBrightness, char maxBrightness) :
+LocalisedPulsePattern::LocalisedPulsePattern(char pulseWidth, int periodMs, char minBrightness, char maxBrightness, bool useColouredPulses) :
 _pulseWidth(pulseWidth),
 _periodMs(periodMs),
 _minBrightness(minBrightness),
 _maxBrightness(maxBrightness),
-_phase(0),
-_pulseLocation(0)
+_useColouredPulses(useColouredPulses),
+_phase(64000),
+_pulseLocation(0),
+_pulseHue(0)
 { }
 
 void LocalisedPulsePattern::Logic(int ms)
@@ -24,12 +27,16 @@ void LocalisedPulsePattern::Logic(int ms)
     if (_phase > _periodMs) {
         // TODO: Replace this with { _phase -= _periodMs; } when Logic() has access to `length`
         _phase = 0;
+        _pulseHue = random8();
     }
 }
 
 void LocalisedPulsePattern::Render(CRGB *frameBuffer, int length)
 {
-    memset8(frameBuffer, _minBrightness, length * sizeof(CRGB));
+    CRGB rgb;
+    hsv2rgb_rainbow(CHSV(_pulseHue, 0, _minBrightness), rgb);
+
+    fill_solid(frameBuffer, length, rgb);
 
     // TODO: Refactor? We currently have to do this in Render() because we have access to `length` here.
     if (_phase == 0)
@@ -37,12 +44,12 @@ void LocalisedPulsePattern::Render(CRGB *frameBuffer, int length)
         _pulseLocation = random8(length);
     }
     else {
-        char pulseBrightness = InterpolatedBrightness();
+        hsv2rgb_rainbow(CHSV(_pulseHue, _useColouredPulses ? 255 : 0, InterpolatedBrightness()), rgb);
 
         unsigned char idx = _pulseLocation;
         for (char pixelsToSet = _pulseWidth; pixelsToSet != 0; pixelsToSet--)
         {
-            frameBuffer[idx].setRGB(pulseBrightness, pulseBrightness, pulseBrightness);
+            frameBuffer[idx] = rgb;
             idx = (idx + 1) % length;
         }
     }
@@ -62,7 +69,10 @@ int LocalisedPulsePattern::InterpolatedBrightness()
         fract = (_periodMs - _phase) * halfPeriodAsFractionOfMax;
     }
 
-    return lerp16by16(((unsigned)_minBrightness) << 8, ((unsigned)_maxBrightness) << 8, fract) >> 8;
+    unsigned minBrightness = ((unsigned)_minBrightness) << 8;
+    if (_useColouredPulses) minBrightness = minBrightness / 3 * 5;
+
+    return lerp16by16(minBrightness, ((unsigned)_maxBrightness) << 8, fract) >> 8;
 }
 
 LocalisedPulsePattern::~LocalisedPulsePattern()
