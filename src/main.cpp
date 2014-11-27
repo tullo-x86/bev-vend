@@ -38,13 +38,15 @@ FlickerPattern flicker2(3000, 32,
                30  ,  6, 32,
                64);
 
-CyclingSolidHuePattern solidHue1(255, 128);
+CyclingSolidHuePattern solidHue1(0, 96);
+CyclingSolidHuePattern solidHue2(255, 128);
 
-#define NUM_PATTERNS 3
+#define NUM_PATTERNS 4
 Pattern *patterns[NUM_PATTERNS] = {
         &flicker1,
         &flicker2,
-        &solidHue1
+        &solidHue1,
+        &solidHue2
 };
 
 #define FPS 30
